@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="whiteboardApp.homepageController">
    <children>
       <VBox prefHeight="400.0" prefWidth="132.0" style="-fx-background-color: DARKGRAY;">
          <children>
@@ -18,7 +18,7 @@
          </children>
       </VBox>
       <Label layoutX="300.0" layoutY="29.0" text="All Whiteboards" />
-      <ImageView fitHeight="105.0" fitWidth="125.0" layoutX="150.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="NewLogo" fitHeight="105.0" fitWidth="125.0" layoutX="150.0" layoutY="80.0" onMouseClicked="#onMouseClicked" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../resources/images.png" />
          </image>
@@ -27,4 +27,3 @@
       <Label layoutX="176.0" layoutY="176.0" text="New" />
    </children>
 </AnchorPane>
- 
