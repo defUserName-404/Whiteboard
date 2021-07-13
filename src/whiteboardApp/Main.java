@@ -17,7 +17,7 @@ public class Main extends Application {
         double screenHeight = primaryScreenBounds.getHeight();
         double screenWidth = primaryScreenBounds.getWidth();
 
-        Parent root = FXMLLoader.load(getClass().getResource("design.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("homepage.fxml"));
         primaryStage.setScene(new Scene(root, screenWidth, screenHeight));
 
         primaryStage.show();
