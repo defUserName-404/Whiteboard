@@ -9,7 +9,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class NewpageController implements Initializable {
-
     @FXML
     public ColorPicker colorPicker;
     @FXML
@@ -20,6 +19,15 @@ public class NewpageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         brushTool = canvas.getGraphicsContext2D();
+
+        canvas.setOnMouseClicked(draw -> {
+            double size = 20;
+            double x = draw.getX() - size / 2;
+            double y = draw.getY() - size / 2;
+
+            brushTool.setFill(colorPicker.getValue());
+            brushTool.fillRoundRect(x, y, size, size, size, size);
+        });
 
         canvas.setOnMouseDragged(draw -> {
             double size = 20;
