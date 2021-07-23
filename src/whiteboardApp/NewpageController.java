@@ -5,6 +5,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.TextField;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -13,6 +15,8 @@ public class NewpageController implements Initializable {
     public ColorPicker colorPicker;
     @FXML
     public Canvas canvas;
+    @FXML
+    public TextField toolSize;
 
     GraphicsContext brushTool;
 
@@ -21,7 +25,7 @@ public class NewpageController implements Initializable {
         brushTool = canvas.getGraphicsContext2D();
 
         canvas.setOnMouseClicked(draw -> {
-            double size = 20;
+            double size = Double.parseDouble(toolSize.getText());
             double x = draw.getX() - size / 2;
             double y = draw.getY() - size / 2;
 
@@ -30,7 +34,7 @@ public class NewpageController implements Initializable {
         });
 
         canvas.setOnMouseDragged(draw -> {
-            double size = 20;
+            double size = Double.parseDouble(toolSize.getText());
             double x = draw.getX() - size / 2;
             double y = draw.getY() - size / 2;
 
