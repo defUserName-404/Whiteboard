@@ -9,12 +9,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.stage.Screen?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="whiteboardApp.NewpageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="whiteboardApp.NewpageController">
    <bottom>
       <ToolBar maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="400.0" style="-fx-background-color: BLACK;" BorderPane.alignment="CENTER">
          <items>
-            <ColorPicker fx:id="colorPicker" prefHeight="30.0" prefWidth="104.0" promptText="Color">
+            <ColorPicker fx:id="colorPicker" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="104.0" promptText="Color">
                <value>
                   <Color />
                </value></ColorPicker>
@@ -25,7 +27,7 @@
       <HBox alignment="CENTER" prefHeight="39.0" prefWidth="600.0" style="-fx-background-color: BLACK;" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="backButton" alignment="CENTER" centerShape="false" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="75.0" text="Back" />
-            <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="621.0">
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="620.0">
                <children>
                   <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" layoutX="471.0" layoutY="1.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="75.0" text="Export" />
                </children>
@@ -34,6 +36,9 @@
       </HBox>
    </top>
    <center>
-      <Canvas fx:id="canvas" height="323.0" width="602.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="canvas" height="${screen.visualBounds.height}" width="${screen.visualBounds.width}" BorderPane.alignment="CENTER" />
+      <fx:define>
+         <Screen fx:factory="getPrimary" fx:id="screen"/>
+      </fx:define>
    </center>
 </BorderPane>
