@@ -3,6 +3,8 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
@@ -23,7 +25,12 @@
                      </value>
                   </ColorPicker>
                   <TextField fx:id="toolSize" promptText="Select Size" style="-fx-background-color: WHITE;" />
-                  <Button contentDisplay="CENTER" mnemonicParsing="false" text="Select Tool" />
+                  <MenuButton fx:id="tool" mnemonicParsing="false" text="Select Tool">
+                    <items>
+                      <MenuItem fx:id="penTool" mnemonicParsing="false" onAction="#penSelected" text="Pen" />
+                      <MenuItem fx:id="eraserTool" mnemonicParsing="false" onAction="#eraserSelected" text="Eraser" />
+                    </items>
+                  </MenuButton>
                </items>
             </ToolBar>
             <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Export" />
@@ -31,7 +38,7 @@
       </HBox>
    </top>
    <center>
-      <VBox fx:id="canvasHolder" alignment="CENTER" BorderPane.alignment="CENTER">
+      <VBox fx:id="canvasHolder" alignment="CENTER" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
          <children>
             <Canvas fx:id="canvas" height="${canvasHolder.height}" width="${canvasHolder.width}" />
          </children>
