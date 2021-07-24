@@ -10,12 +10,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    static Stage window; // to get the window later
+    static Stage window;
     protected double screenHeight, screenWidth;
 
     protected void getScreenResolution() {
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
         screenWidth = primaryScreenBounds.getWidth();
         screenHeight = primaryScreenBounds.getHeight();
     }
@@ -23,17 +22,12 @@ public class Main extends Application {
     @Override
     public void start(Stage _window) throws Exception {
         getScreenResolution();
-
         _window.setTitle("Whiteboard");
-
         Image icon = new Image("file: resources/assets/whiteboard.png");
         _window.getIcons().add(icon);
-
         this.window = _window;
-
         Parent root = FXMLLoader.load(getClass().getResource("homepage.fxml"));
         _window.setScene(new Scene(root, screenWidth, screenHeight));
-
         _window.show();
     }
 
