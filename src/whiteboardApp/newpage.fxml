@@ -2,7 +2,6 @@
 
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
@@ -18,13 +17,13 @@
             <Button fx:id="backButton" alignment="CENTER" centerShape="false" contentDisplay="CENTER" mnemonicParsing="false" text="Back" />
             <ToolBar style="-fx-background-color: BLACK;">
                <items>
-                  <ChoiceBox fx:id="selectTool" />
                   <ColorPicker fx:id="colorPicker" promptText="Color">
                      <value>
                         <Color />
                      </value>
                   </ColorPicker>
                   <TextField fx:id="toolSize" promptText="Select Size" style="-fx-background-color: WHITE;" />
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" text="Select Tool" />
                </items>
             </ToolBar>
             <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Export" />
