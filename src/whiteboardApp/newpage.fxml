@@ -2,12 +2,9 @@
 
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ColorPicker?>
-<?import javafx.scene.control.CustomMenuItem?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -18,31 +15,24 @@
    <top>
       <HBox alignment="CENTER" style="-fx-background-color: BLACK;" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="backButton" alignment="CENTER" centerShape="false" contentDisplay="CENTER" mnemonicParsing="false"
-                    style="-fx-border-radius: 32px; -fx-background-color: WHITE;" />
-            <ToolBar style="-fx-background-color: BLACK;">
+            <Button fx:id="backButton" alignment="CENTER" centerShape="false" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-border-radius: 32px; -fx-background-color: WHITE;" />
+            <ToolBar fx:id="toolBar" style="-fx-background-color: BLACK;">
                <items>
+                  <MenuButton fx:id="tool" mnemonicParsing="false" text="Select Tool">
+                    <items>
+                      <MenuItem fx:id="penTool" mnemonicParsing="false" onAction="#penSelected" text="Pen" />
+                      <MenuItem fx:id="eraserTool" mnemonicParsing="false" onAction="#eraserSelected" text="Eraser" />
+                    </items>
+                  </MenuButton>
                   <ColorPicker fx:id="colorPicker" promptText="Color">
                      <value>
                         <Color />
                      </value>
                   </ColorPicker>
-                  <TextField fx:id="toolSize" promptText="Select Size (Default 10)" style="-fx-background-color: WHITE;" />
-                  <MenuButton fx:id="tool" mnemonicParsing="false" text="Select Tool">
-                    <items>
-                      <MenuItem fx:id="penTool" mnemonicParsing="false" onAction="#penSelected" text="Pen" />
-                      <MenuItem fx:id="eraserTool" mnemonicParsing="false" onAction="#eraserSelected" text="Eraser" />
-                        <CustomMenuItem fx:id="shapes" mnemonicParsing="false" text="Shapes">
-                          <content>
-                            <CheckBox text="Click Me" />
-                          </content>
-                        </CustomMenuItem>
-                    </items>
-                  </MenuButton>
+                  <Button fx:id="sizeButton" mnemonicParsing="false" onAction="#sizeButtonSelected" text="Size" />
                </items>
             </ToolBar>
-            <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    style="-fx-border-radius: 32px; -fx-background-color: WHITE;" />
+            <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-border-radius: 32px; -fx-background-color: WHITE;" />
          </children>
       </HBox>
    </top>
