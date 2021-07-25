@@ -1,6 +1,5 @@
 package whiteboardApp;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -13,7 +12,7 @@ import java.util.ResourceBundle;
 
 public class NewpageController implements Initializable {
     @FXML
-    public Button backButton, exportButton, sizeButton;
+    public Button backButton, exportButton;
     @FXML
     public ColorPicker colorPicker;
     @FXML
@@ -24,6 +23,8 @@ public class NewpageController implements Initializable {
     public MenuItem penTool, eraserTool;
     @FXML
     public ToolBar toolBar;
+    @FXML
+    public Slider sizeSlider;
     public GraphicsContext canvasTool;
 
     private void toolSelected(String _tool) {
@@ -39,19 +40,16 @@ public class NewpageController implements Initializable {
         canvas.setOnMousePressed(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                 canvasTool.beginPath();
-                canvasTool.lineTo(mouseEvent.getX(), mouseEvent.getY());
+                canvasTool.moveTo(mouseEvent.getX(), mouseEvent.getY());
                 canvasTool.stroke();
             }
         });
         canvas.setOnMouseDragged(mouseEvent ->  {
-                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                    canvasTool.lineTo(mouseEvent.getX(), mouseEvent.getY());
-                    canvasTool.stroke();
-                }
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                canvasTool.lineTo(mouseEvent.getX(), mouseEvent.getY());
+                canvasTool.stroke();
+            }
         });
-    }
-
-    public void sizeButtonSelected(ActionEvent actionEvent) {
     }
 
     public void penSelected() {
@@ -65,5 +63,9 @@ public class NewpageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         toolSelected("Pen");
+        sizeSlider.valueProperty().addListener(e -> {
+            double size = sizeSlider.getValue();
+            canvasTool.setLineWidth(size);
+        });
     }
 }
