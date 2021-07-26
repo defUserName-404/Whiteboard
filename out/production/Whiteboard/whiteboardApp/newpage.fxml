@@ -3,6 +3,7 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Spinner?>
@@ -24,6 +25,13 @@
                       <MenuItem fx:id="penTool" mnemonicParsing="false" onAction="#penSelected" text="Pen" />
                       <MenuItem fx:id="eraserTool" mnemonicParsing="false" onAction="#eraserSelected" text="Eraser" />
                         <MenuItem fx:id="textTool" mnemonicParsing="false" onAction="#textSelected" text="Text" />
+                        <Menu mnemonicParsing="false" text="Shapes">
+                           <items>
+                              <MenuItem fx:id="lineTool" mnemonicParsing="false" onAction="#drawLine" text="Line" />
+                              <MenuItem fx:id="circleTool" mnemonicParsing="false" onAction="#drawCircle" text="Circle" />
+                              <MenuItem fx:id="rectangleTool" mnemonicParsing="false" text="Rectangle" />
+                           </items>
+                        </Menu>
                     </items>
                   </MenuButton>
                   <ColorPicker fx:id="colorPicker" promptText="Color">

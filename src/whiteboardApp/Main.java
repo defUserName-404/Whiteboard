@@ -9,6 +9,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class Main extends Application {
     static Stage window;
     protected double screenHeight, screenWidth;
@@ -25,8 +27,8 @@ public class Main extends Application {
         _window.setTitle("Whiteboard");
         Image icon = new Image("file: resources/assets/whiteboard.png");
         _window.getIcons().add(icon);
-        this.window = _window;
-        Parent root = FXMLLoader.load(getClass().getResource("homepage.fxml"));
+        window = _window;
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("homepage.fxml")));
         _window.setScene(new Scene(root, screenWidth, screenHeight));
         _window.show();
     }
