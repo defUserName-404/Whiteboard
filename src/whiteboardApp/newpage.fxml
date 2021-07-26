@@ -23,6 +23,7 @@
                     <items>
                       <MenuItem fx:id="penTool" mnemonicParsing="false" onAction="#penSelected" text="Pen" />
                       <MenuItem fx:id="eraserTool" mnemonicParsing="false" onAction="#eraserSelected" text="Eraser" />
+                        <MenuItem fx:id="textTool" mnemonicParsing="false" onAction="#textSelected" text="Text" />
                     </items>
                   </MenuButton>
                   <ColorPicker fx:id="colorPicker" promptText="Color">

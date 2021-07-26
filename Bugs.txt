@@ -1,0 +1,1 @@
+1. After changing colorPicker tool while the eraser tool is selected, it works same as a pen tool.
