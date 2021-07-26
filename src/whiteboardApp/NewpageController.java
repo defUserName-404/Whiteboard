@@ -1,5 +1,7 @@
 package whiteboardApp;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -24,14 +26,13 @@ public class NewpageController implements Initializable {
     @FXML
     public ToolBar toolBar;
     @FXML
-    public Slider sizeSlider;
+    public Spinner<Integer> sizeSpinner;
     public GraphicsContext canvasTool;
 
     private void toolSelected(String _tool) {
         tool.setText(_tool);
         canvasTool = canvas.getGraphicsContext2D();
         canvasTool.setStroke(_tool == "Pen" ? Color.BLACK : canvas.getScene().getFill());
-        canvasTool.setLineWidth(1);
         if (_tool == "Pen") {
             colorPicker.setOnAction(event -> {
                 canvasTool.setStroke(colorPicker.getValue());
@@ -63,9 +64,18 @@ public class NewpageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         toolSelected("Pen");
-        sizeSlider.valueProperty().addListener(e -> {
-            double size = sizeSlider.getValue();
-            canvasTool.setLineWidth(size);
+        SpinnerValueFactory<Integer> sizeValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20);
+        sizeValue.setValue(1);
+        sizeSpinner.setEditable(true);
+        sizeSpinner.setValueFactory(sizeValue);
+        sizeSpinner.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                int size = sizeSpinner.getValue();
+                if (size > 20) size = 20;
+                sizeValue.setValue(size);
+                canvasTool.setLineWidth(size);
+            }
         });
     }
 }

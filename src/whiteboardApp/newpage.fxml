@@ -5,7 +5,7 @@
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -30,7 +30,7 @@
                         <Color />
                      </value>
                   </ColorPicker>
-                  <Slider fx:id="sizeSlider" blockIncrement="1.0" min="1.0" />
+                  <Spinner fx:id="sizeSpinner" editable="true" />
                </items>
             </ToolBar>
             <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-border-radius: 32px; -fx-background-color: WHITE;" />
