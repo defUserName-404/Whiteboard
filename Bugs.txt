@@ -1,1 +1,1 @@
-1. drawing lines and circle isn't working as intended
+1. drawing shapes isn't working as intended

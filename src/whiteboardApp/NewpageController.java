@@ -1,7 +1,6 @@
 package whiteboardApp;
 
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -11,8 +10,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -57,6 +54,7 @@ public class NewpageController implements Initializable {
         });
     }
 
+
     public void penSelected() {
         toolSelected("Pen");
     }
@@ -74,15 +72,19 @@ public class NewpageController implements Initializable {
         tool.setText("Line");
         Line line = new Line();
         canvas.setOnMousePressed(mouseEvent -> {
-            canvasTool.setStroke(colorPicker.getValue());
-            canvasTool.setLineWidth(sizeSpinner.getValue());
-            line.setStartX(mouseEvent.getX());
-            line.setStartY(mouseEvent.getY());
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                canvasTool.setStroke(colorPicker.getValue());
+                canvasTool.setLineWidth(sizeSpinner.getValue());
+                line.setStartX(mouseEvent.getX());
+                line.setStartY(mouseEvent.getY());
+            }
         });
         canvas.setOnMouseReleased(mouseEvent -> {
-            line.setEndX(mouseEvent.getX());
-            line.setEndY(mouseEvent.getY());
-            canvasTool.strokeLine(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                line.setEndX(mouseEvent.getX());
+                line.setEndY(mouseEvent.getY());
+                canvasTool.strokeLine(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
+            }
         });
     }
 
@@ -107,19 +109,15 @@ public class NewpageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         canvasTool = canvas.getGraphicsContext2D();
-        toolSelected("Pen");
         SpinnerValueFactory<Integer> sizeValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20);
         sizeValue.setValue(1);
         sizeSpinner.setEditable(true);
         sizeSpinner.setValueFactory(sizeValue);
-        sizeSpinner.valueProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observableValue, Object o, Object t1) {
-                int size = sizeSpinner.getValue();
-                if (size > 20) size = 20;
-                sizeValue.setValue(size);
-                canvasTool.setLineWidth(size);
-            }
+        sizeSpinner.valueProperty().addListener((ChangeListener<? super Integer>) (observableValue, o, t1) -> {
+            int size = sizeSpinner.getValue();
+            if (size > 20) size = 20;
+            sizeValue.setValue(size);
+            canvasTool.setLineWidth(size);
         });
     }
 }
