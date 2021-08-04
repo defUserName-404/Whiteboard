@@ -54,7 +54,6 @@ public class NewpageController implements Initializable {
         });
     }
 
-
     public void penSelected() {
         toolSelected("Pen");
     }
