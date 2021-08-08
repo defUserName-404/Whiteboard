@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 
-<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="whiteboardApp.NewpageController">
+<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="whiteboardApp.NewPageController">
    <top>
       <HBox alignment="CENTER" style="-fx-background-color: BLACK;" BorderPane.alignment="CENTER">
          <Button fx:id="backButton" alignment="CENTER" centerShape="false" contentDisplay="CENTER"

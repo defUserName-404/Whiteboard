@@ -13,7 +13,7 @@ import javafx.scene.shape.Line;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class NewpageController implements Initializable {
+public class NewPageController implements Initializable {
     @FXML public Button backButton, exportButton;
     @FXML public ColorPicker colorPicker;
     @FXML public Canvas canvas;
