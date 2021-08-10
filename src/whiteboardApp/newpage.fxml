@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
@@ -25,8 +26,8 @@
                   <MenuItem fx:id="textTool" mnemonicParsing="false" onAction="#textSelected" text="Text" />
                   <Menu mnemonicParsing="false" text="Shapes">
                      <MenuItem fx:id="lineTool" mnemonicParsing="false" onAction="#lineShapeSelected" text="Line" />
-                     <MenuItem fx:id="circleTool" mnemonicParsing="false" onAction="#drawCircle" text="Circle" />
-                     <MenuItem fx:id="rectangleTool" mnemonicParsing="false" text="Rectangle" />
+                     <MenuItem fx:id="circleTool" mnemonicParsing="false" onAction="#circleShapeSelected" text="Circle" />
+                     <MenuItem fx:id="rectangleTool" mnemonicParsing="false" onAction="#rectangleShapeSelected" text="Rectangle" />
                   </Menu>
                   <MenuItem fx:id="clearTool" mnemonicParsing="false" text="Clear All" />
                </items>
@@ -37,6 +38,12 @@
                </value>
             </ColorPicker>
             <Spinner fx:id="sizeSpinner" editable="true" />
+            <MenuButton fx:id="shapeOptions" mnemonicParsing="false" text="Shape Options" visible="false">
+               <items>
+                  <RadioMenuItem fx:id="shapeFill" mnemonicParsing="false" onAction="#shapeFillSelected" text="Fill" />
+                  <RadioMenuItem fx:id="shapeStroke" mnemonicParsing="false" onAction="#shapeStrokeSelected" text="Stroke" />
+               </items>
+            </MenuButton>
          </ToolBar>
          <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-border-radius: 32px; -fx-background-color: WHITE;" visible="false" />
       </HBox>
