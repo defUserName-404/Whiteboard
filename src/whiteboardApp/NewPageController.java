@@ -7,10 +7,12 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class NewPageController implements Initializable {
@@ -23,100 +25,103 @@ public class NewPageController implements Initializable {
     @FXML public Spinner<Integer> sizeSpinner;
     @FXML public VBox canvasHolder;
     @FXML public MenuItem lineTool, circleTool, rectangleTool;
-    public GraphicsContext canvasTool;
 
-    private void toolSelected(String _tool) {
-        tool.setText(_tool);
-        if (_tool.equals("Pen")) {
-            canvasTool.setStroke(colorPicker.getValue());
-            colorPicker.setOnAction(event -> {
-                canvasTool.setStroke(colorPicker.getValue());
-            });
-        }
-        else {
-            canvasTool.setStroke(canvas.getScene().getFill());
-            colorPicker.setOnAction(event -> {
-                canvasTool.setStroke(canvas.getScene().getFill());
-            });
-        }
-        canvas.setOnMousePressed(mouseEvent -> {
-            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                canvasTool.beginPath();
-                canvasTool.moveTo(mouseEvent.getX(), mouseEvent.getY());
-                canvasTool.stroke();
-            }
-        });
-        canvas.setOnMouseDragged(mouseEvent ->  {
-            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                canvasTool.lineTo(mouseEvent.getX(), mouseEvent.getY());
-                canvasTool.stroke();
-            }
-        });
-    }
+    public GraphicsContext canvasToolFinal;
+    double startX, startY, endX, endY, previousX, previousY;
+    // currentSelectedTool in order: Pen, Eraser, Text, Shapes[Line, Rectangle, Circle]
+    private final boolean[][] currentSelectedTool = {{false}, {false}, {false}, {false, false, false}};
 
     public void penSelected() {
-        toolSelected("Pen");
+        tool.setText("Pen");
+        for (boolean[] booleans : currentSelectedTool) {
+            Arrays.fill(booleans, false);
+        }
+        currentSelectedTool[0][0] = true;
     }
 
     public void eraserSelected() {
-        toolSelected("Eraser");
+        tool.setText("Eraser");
+        for (boolean[] booleans : currentSelectedTool) {
+            Arrays.fill(booleans, false);
+        }
+        currentSelectedTool[1][0] = true;
     }
 
-    // TODO
+    // TODO: Implement the method
     public void textSelected() {
         tool.setText("Text");
     }
 
-    public void drawLine() {
+    public void lineShapeSelected() {
         tool.setText("Line");
-        Line line = new Line();
-        canvas.setOnMousePressed(mouseEvent -> {
-            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                canvasTool.setStroke(colorPicker.getValue());
-                canvasTool.setLineWidth(sizeSpinner.getValue());
-                line.setStartX(mouseEvent.getX());
-                line.setStartY(mouseEvent.getY());
-            }
-        });
-        canvas.setOnMouseReleased(mouseEvent -> {
-            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                line.setEndX(mouseEvent.getX());
-                line.setEndY(mouseEvent.getY());
-                canvasTool.strokeLine(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
-            }
-        });
+        for (boolean[] booleans : currentSelectedTool) {
+            Arrays.fill(booleans, false);
+        }
+        currentSelectedTool[3][0] = true;
     }
 
     public void drawCircle() {
         tool.setText("Circle");
-        Circle circle = new Circle();
-        canvas.setOnMousePressed(mouseEvent -> {
-            canvasTool.setStroke(colorPicker.getValue());
-            canvasTool.setLineWidth(sizeSpinner.getValue());
-            canvasTool.setFill(colorPicker.getValue());
-            circle.setCenterX(mouseEvent.getX());
-            circle.setCenterY(mouseEvent.getY());
-        });
-        canvas.setOnMouseReleased(mouseEvent -> {
-            circle.setRadius((Math.abs(mouseEvent.getX() - circle.getCenterX()) + Math.abs(mouseEvent.getY() + circle.getCenterY())) / 2.0);
-            if (circle.getCenterX() > mouseEvent.getX()) circle.setCenterX(mouseEvent.getX());
-            if (circle.getCenterY() > mouseEvent.getY()) circle.setCenterY(mouseEvent.getY());
-            canvasTool.fillOval(circle.getCenterX(), circle.getCenterY(), circle.getRadius(), circle.getRadius());
-        });
+    }
+
+    private void usePenOrEraserTool(String _tool) {
+        canvasToolFinal.setLineWidth(sizeSpinner.getValue());
+        canvasToolFinal.setStroke(_tool.equals("Pen") ? colorPicker.getValue() : canvas.getScene().getFill());
+        canvasToolFinal.strokeLine(previousX, previousY, endX, endY);
+        previousX = endX;
+        previousY = endY;
+    }
+
+    private void drawLine(boolean effect) {
+        canvasToolFinal.setLineWidth(sizeSpinner.getValue());
+        canvasToolFinal.setStroke(colorPicker.getValue());
+        canvasToolFinal.strokeLine(startX, startY, endX, endY);
+    }
+
+    @FXML
+    public void mousePressListener(MouseEvent mousePress) {
+        if (mousePress.getButton() == MouseButton.PRIMARY) {
+            this.startX = mousePress.getX();
+            this.startY = mousePress.getY();
+            this.previousX = mousePress.getX();
+            this.previousY = mousePress.getY();
+        }
+    }
+
+    @FXML
+    public void mouseDragListener(MouseEvent mouseDrag) {
+        if (mouseDrag.getButton() == MouseButton.PRIMARY) {
+            this.endX = mouseDrag.getX();
+            this.endY = mouseDrag.getY();
+
+            if (currentSelectedTool[0][0]) usePenOrEraserTool("Pen");
+            else if (currentSelectedTool[1][0]) usePenOrEraserTool("Eraser");
+            else if (currentSelectedTool[2][0]) textSelected();
+            else if (currentSelectedTool[3][0]) drawLine(true);
+            else if (currentSelectedTool[3][1]) drawCircle();
+        }
+    }
+
+    @FXML
+    private void mouseReleaseListener(MouseEvent mouseRelease){
+        if (mouseRelease.getButton() == MouseButton.PRIMARY) {
+            if (currentSelectedTool[3][0]) drawLine(false);
+            else if (currentSelectedTool[3][1]) drawCircle();
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        canvasTool = canvas.getGraphicsContext2D();
-        SpinnerValueFactory<Integer> sizeValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20);
+        canvasToolFinal = canvas.getGraphicsContext2D();
+        SpinnerValueFactory<Integer> sizeValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
         sizeValue.setValue(1);
         sizeSpinner.setEditable(true);
         sizeSpinner.setValueFactory(sizeValue);
         sizeSpinner.valueProperty().addListener((ChangeListener<? super Integer>) (observableValue, o, t1) -> {
             int size = sizeSpinner.getValue();
-            if (size > 20) size = 20;
+            if (size > 50) size = 50;
             sizeValue.setValue(size);
-            canvasTool.setLineWidth(size);
+            canvasToolFinal.setLineWidth(size);
         });
     }
 }

@@ -16,35 +16,34 @@
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="whiteboardApp.NewPageController">
    <top>
       <HBox alignment="CENTER" style="-fx-background-color: BLACK;" BorderPane.alignment="CENTER">
-         <Button fx:id="backButton" alignment="CENTER" centerShape="false" contentDisplay="CENTER"
-                 mnemonicParsing="false" style="-fx-border-radius: 32px; -fx-background-color: WHITE;"/>
+         <Button fx:id="backButton" alignment="CENTER" centerShape="false" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-border-radius: 32px; -fx-background-color: WHITE;" visible="false" />
          <ToolBar fx:id="toolBar" style="-fx-background-color: BLACK;">
             <MenuButton fx:id="tool" mnemonicParsing="false" text="Select Tool">
                <items>
-                  <MenuItem fx:id="penTool" mnemonicParsing="false" onAction="#penSelected" text="Pen"/>
-                  <MenuItem fx:id="eraserTool" mnemonicParsing="false" onAction="#eraserSelected" text="Eraser"/>
-                  <MenuItem fx:id="textTool" mnemonicParsing="false" onAction="#textSelected" text="Text"/>
+                  <MenuItem fx:id="penTool" mnemonicParsing="false" onAction="#penSelected" text="Pen" />
+                  <MenuItem fx:id="eraserTool" mnemonicParsing="false" onAction="#eraserSelected" text="Eraser" />
+                  <MenuItem fx:id="textTool" mnemonicParsing="false" onAction="#textSelected" text="Text" />
                   <Menu mnemonicParsing="false" text="Shapes">
-                     <MenuItem fx:id="lineTool" mnemonicParsing="false" onAction="#drawLine" text="Line"/>
-                     <MenuItem fx:id="circleTool" mnemonicParsing="false" onAction="#drawCircle" text="Circle"/>
-                     <MenuItem fx:id="rectangleTool" mnemonicParsing="false" text="Rectangle"/>
+                     <MenuItem fx:id="lineTool" mnemonicParsing="false" onAction="#lineShapeSelected" text="Line" />
+                     <MenuItem fx:id="circleTool" mnemonicParsing="false" onAction="#drawCircle" text="Circle" />
+                     <MenuItem fx:id="rectangleTool" mnemonicParsing="false" text="Rectangle" />
                   </Menu>
+                  <MenuItem fx:id="clearTool" mnemonicParsing="false" text="Clear All" />
                </items>
             </MenuButton>
             <ColorPicker fx:id="colorPicker" promptText="Color">
                <value>
-                  <Color/>
+                  <Color />
                </value>
             </ColorPicker>
-            <Spinner fx:id="sizeSpinner" editable="true"/>
+            <Spinner fx:id="sizeSpinner" editable="true" />
          </ToolBar>
-         <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                 style="-fx-border-radius: 32px; -fx-background-color: WHITE;"/>
+         <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-border-radius: 32px; -fx-background-color: WHITE;" visible="false" />
       </HBox>
    </top>
    <center>
       <VBox fx:id="canvasHolder" alignment="CENTER" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
-         <Canvas fx:id="canvas" height="${canvasHolder.height}" width="${canvasHolder.width}"/>
+         <Canvas fx:id="canvas" height="${canvasHolder.height}" onMouseDragged="#mouseDragListener" onMousePressed="#mousePressListener" onMouseReleased="#mouseReleaseListener" width="${canvasHolder.width}" />
       </VBox>
    </center>
 </BorderPane>
