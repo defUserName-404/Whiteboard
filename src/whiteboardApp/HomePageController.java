@@ -4,9 +4,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-public class HomepageController extends Main {
+import java.util.Objects;
+
+public class HomePageController extends Main {
     public void onNewButtonClicked() throws Exception {
-        Parent newpage = FXMLLoader.load(getClass().getResource("newpage.fxml"));
+        Parent newpage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("newpage.fxml")));
         getScreenResolution();
         window.setScene(new Scene(newpage, screenWidth, screenHeight));
         window.show();
