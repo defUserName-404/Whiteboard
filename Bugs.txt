@@ -1,1 +1,1 @@
-1. All Fixed
+1. Text Area isn't resizing

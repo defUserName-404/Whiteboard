@@ -8,11 +8,13 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="whiteboardApp.NewPageController">
    <top>
@@ -49,8 +51,13 @@
       </HBox>
    </top>
    <center>
-      <VBox fx:id="canvasHolder" alignment="CENTER" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
+      <StackPane fx:id="canvasHolder" BorderPane.alignment="CENTER">
          <Canvas fx:id="canvas" height="${canvasHolder.height}" onMouseDragged="#mouseDragListener" onMousePressed="#mousePressListener" onMouseReleased="#mouseReleaseListener" width="${canvasHolder.width}" />
-      </VBox>
+         <TextArea fx:id="textArea" editable="false" maxHeight="100.0" maxWidth="200.0" minHeight="100.0" minWidth="200.0" promptText="Insert Text Here" style="-fx-background-color: BLACK;" visible="false" wrapText="true">
+            <font>
+               <Font name="Comic Sans MS" size="13.0" />
+            </font>
+         </TextArea>
+      </StackPane>
    </center>
 </BorderPane>

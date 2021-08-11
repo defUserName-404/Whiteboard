@@ -8,7 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.Arrays;
@@ -22,9 +22,10 @@ public class NewPageController implements Initializable {
     @FXML public MenuItem penTool, eraserTool, textTool;
     @FXML public ToolBar toolBar;
     @FXML public Spinner<Integer> sizeSpinner;
-    @FXML public VBox canvasHolder;
+    @FXML public StackPane canvasHolder;
     @FXML public MenuItem lineTool, circleTool, rectangleTool;
     @FXML public RadioMenuItem shapeFill, shapeStroke;
+    @FXML public TextArea textArea;
 
     public GraphicsContext canvasTool;
     double startX, startY, endX, endY, previousX, previousY;
@@ -38,6 +39,7 @@ public class NewPageController implements Initializable {
             Arrays.fill(booleans, false);
         }
         currentSelectedTool[0][0] = true;
+        textArea.setEditable(false);
     }
 
     public void eraserSelected() {
@@ -46,11 +48,16 @@ public class NewPageController implements Initializable {
             Arrays.fill(booleans, false);
         }
         currentSelectedTool[1][0] = true;
+        textArea.setEditable(false);
     }
 
-    // TODO: Implement the method
     public void textSelected() {
         tool.setText("Text");
+        for (boolean[] booleans : currentSelectedTool) {
+            Arrays.fill(booleans, false);
+        }
+        currentSelectedTool[2][0] = true;
+        insertText();
     }
 
     public void lineShapeSelected() {
@@ -59,6 +66,7 @@ public class NewPageController implements Initializable {
             Arrays.fill(booleans, false);
         }
         currentSelectedTool[3][0] = true;
+        textArea.setEditable(false);
     }
 
     public void circleShapeSelected() {
@@ -68,6 +76,7 @@ public class NewPageController implements Initializable {
             Arrays.fill(booleans, false);
         }
         currentSelectedTool[3][1] = true;
+        textArea.setEditable(false);
     }
 
     public void rectangleShapeSelected() {
@@ -77,6 +86,7 @@ public class NewPageController implements Initializable {
             Arrays.fill(booleans, false);
         }
         currentSelectedTool[3][2] = true;
+        textArea.setEditable(false);
     }
 
     @FXML
@@ -94,10 +104,17 @@ public class NewPageController implements Initializable {
     /* ----------------------Using Tools------------------------ */
     private void usePenOrEraserTool(String _tool) {
         canvasTool.setLineWidth(sizeSpinner.getValue());
-        canvasTool.setStroke(_tool.equals("Pen") ? colorPicker.getValue() : canvas.getScene().getFill());
+        canvasTool.setStroke(_tool.equals("Pen") ? colorPicker.getValue() : Color.WHITESMOKE);
         canvasTool.strokeLine(previousX, previousY, endX, endY);
         previousX = endX;
         previousY = endY;
+    }
+
+    private void insertText() {
+        canvasTool.setLineWidth(sizeSpinner.getValue());
+        canvasTool.setFill(colorPicker.getValue());
+        textArea.setVisible(true);
+        textArea.setEditable(true);
     }
 
     private void drawLine(boolean effect) {
@@ -153,7 +170,6 @@ public class NewPageController implements Initializable {
 
             if (currentSelectedTool[0][0]) usePenOrEraserTool("Pen");
             else if (currentSelectedTool[1][0]) usePenOrEraserTool("Eraser");
-            else if (currentSelectedTool[2][0]) textSelected();
             else if (currentSelectedTool[3][0]) drawLine(true);
             else if (currentSelectedTool[3][1]) drawCircleOrRectangle(true);
             else if (currentSelectedTool[3][2]) drawCircleOrRectangle(true);
