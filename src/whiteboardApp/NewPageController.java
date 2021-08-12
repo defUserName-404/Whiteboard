@@ -1,4 +1,3 @@
-
 package whiteboardApp;
 
 import javafx.beans.value.ChangeListener;
@@ -114,10 +113,10 @@ public class NewPageController implements Initializable {
     }
 
     private void insertText() {
-//        canvasTool.setLineWidth(sizeSpinner.getValue());
-//        canvasTool.setFill(colorPicker.getValue());
-//        textArea.setVisible(true);
-//        textArea.setEditable(true);
+        canvasTool.setLineWidth(sizeSpinner.getValue());
+        canvasTool.setFill(colorPicker.getValue());
+        textArea.setVisible(true);
+        textArea.setEditable(true);
     }
 
     private void drawLine(boolean effect) {
