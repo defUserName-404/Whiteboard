@@ -88,7 +88,6 @@ public class NewPageController implements Initializable {
     }
 
     public void clearAllSelected() {
-        shapeOptions.setVisible(false);
         canvasTool.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
@@ -105,19 +104,19 @@ public class NewPageController implements Initializable {
     }
 
     /* ----------------------Using Tools------------------------ */
-    private void usePenOrEraserTool(String _tool) {
+    private void usePenOrEraserTool() {
         canvasTool.setLineWidth(sizeSpinner.getValue());
-        canvasTool.setStroke(_tool.equals("Pen") ? colorPicker.getValue() : Color.WHITESMOKE);
+        canvasTool.setStroke(tool.getText().equals("Pen") ? colorPicker.getValue() : Color.WHITESMOKE);
         canvasTool.strokeLine(previousX, previousY, endX, endY);
         previousX = endX;
         previousY = endY;
     }
 
     private void insertText() {
-        canvasTool.setLineWidth(sizeSpinner.getValue());
-        canvasTool.setFill(colorPicker.getValue());
-        textArea.setVisible(true);
-        textArea.setEditable(true);
+//        canvasTool.setLineWidth(sizeSpinner.getValue());
+//        canvasTool.setFill(colorPicker.getValue());
+//        textArea.setVisible(true);
+//        textArea.setEditable(true);
     }
 
     private void drawLine(boolean effect) {
@@ -129,6 +128,7 @@ public class NewPageController implements Initializable {
     }
 
     private void drawCircleOrRectangle(boolean effect) {
+
         double positionX = endX - startX;
         double positionY = endY - startY;
         Color color = colorPicker.getValue();
@@ -171,8 +171,8 @@ public class NewPageController implements Initializable {
             this.endX = mouseDrag.getX();
             this.endY = mouseDrag.getY();
 
-            if (currentSelectedTool[0][0]) usePenOrEraserTool("Pen");
-            else if (currentSelectedTool[1][0]) usePenOrEraserTool("Eraser");
+            if (currentSelectedTool[0][0]) usePenOrEraserTool();
+            else if (currentSelectedTool[1][0]) usePenOrEraserTool();
             else if (currentSelectedTool[3][0]) drawLine(true);
             else if (currentSelectedTool[3][1]) drawCircleOrRectangle(true);
             else if (currentSelectedTool[3][2]) drawCircleOrRectangle(true);
