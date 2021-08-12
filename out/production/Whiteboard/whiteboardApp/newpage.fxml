@@ -31,7 +31,7 @@
                      <MenuItem fx:id="circleTool" mnemonicParsing="false" onAction="#circleShapeSelected" text="Circle" />
                      <MenuItem fx:id="rectangleTool" mnemonicParsing="false" onAction="#rectangleShapeSelected" text="Rectangle" />
                   </Menu>
-                  <MenuItem fx:id="clearTool" mnemonicParsing="false" text="Clear All" />
+                  <MenuItem fx:id="clearTool" mnemonicParsing="false" onAction="#clearAllSelected" text="Clear All" />
                </items>
             </MenuButton>
             <ColorPicker fx:id="colorPicker" promptText="Color">

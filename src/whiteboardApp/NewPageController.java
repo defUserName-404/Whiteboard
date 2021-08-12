@@ -19,18 +19,17 @@ public class NewPageController implements Initializable {
     @FXML public ColorPicker colorPicker;
     @FXML public Canvas canvas;
     @FXML public MenuButton tool, shapeOptions;
-    @FXML public MenuItem penTool, eraserTool, textTool;
+    @FXML public MenuItem penTool, eraserTool, textTool, lineTool, circleTool, rectangleTool, clearTool;
     @FXML public ToolBar toolBar;
     @FXML public Spinner<Integer> sizeSpinner;
     @FXML public StackPane canvasHolder;
-    @FXML public MenuItem lineTool, circleTool, rectangleTool;
     @FXML public RadioMenuItem shapeFill, shapeStroke;
     @FXML public TextArea textArea;
 
     public GraphicsContext canvasTool;
     double startX, startY, endX, endY, previousX, previousY;
-    // currentSelectedTool in order: Pen, Eraser, Text, Shapes[Line, Rectangle, Circle]
-    private final boolean[][] currentSelectedTool = {{false}, {false}, {false}, {false, false, false}};
+    // currentSelectedTool in order: Pen, Eraser, Text, Shapes[Line, Rectangle, Circle], clearTool
+    private final boolean[][] currentSelectedTool = {{false}, {false}, {false}, {false, false, false}, {false}};
 
     /* ----------------------Menu Control------------------------ */
     public void penSelected() {
@@ -39,7 +38,7 @@ public class NewPageController implements Initializable {
             Arrays.fill(booleans, false);
         }
         currentSelectedTool[0][0] = true;
-        textArea.setEditable(false);
+        shapeOptions.setVisible(false);
     }
 
     public void eraserSelected() {
@@ -48,7 +47,7 @@ public class NewPageController implements Initializable {
             Arrays.fill(booleans, false);
         }
         currentSelectedTool[1][0] = true;
-        textArea.setEditable(false);
+        shapeOptions.setVisible(false);
     }
 
     public void textSelected() {
@@ -57,6 +56,7 @@ public class NewPageController implements Initializable {
             Arrays.fill(booleans, false);
         }
         currentSelectedTool[2][0] = true;
+        shapeOptions.setVisible(false);
         insertText();
     }
 
@@ -66,7 +66,7 @@ public class NewPageController implements Initializable {
             Arrays.fill(booleans, false);
         }
         currentSelectedTool[3][0] = true;
-        textArea.setEditable(false);
+        shapeOptions.setVisible(false);
     }
 
     public void circleShapeSelected() {
@@ -76,7 +76,6 @@ public class NewPageController implements Initializable {
             Arrays.fill(booleans, false);
         }
         currentSelectedTool[3][1] = true;
-        textArea.setEditable(false);
     }
 
     public void rectangleShapeSelected() {
@@ -86,7 +85,11 @@ public class NewPageController implements Initializable {
             Arrays.fill(booleans, false);
         }
         currentSelectedTool[3][2] = true;
-        textArea.setEditable(false);
+    }
+
+    public void clearAllSelected() {
+        shapeOptions.setVisible(false);
+        canvasTool.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
     @FXML
