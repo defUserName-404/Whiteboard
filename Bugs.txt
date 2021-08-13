@@ -1,2 +1,2 @@
 1. Text Area isn't resizing
-2. The image file isn't loading
+2. Image files needs to be scaled to fit the screen

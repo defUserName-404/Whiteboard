@@ -1,6 +1,7 @@
 package whiteboardApp;
 
 import javafx.beans.value.ChangeListener;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -8,19 +9,21 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class NewPageController implements Initializable {
-    @FXML public Button backButton, exportButton;
     @FXML public ColorPicker colorPicker;
     @FXML public Canvas canvas;
     @FXML public MenuButton tool, shapeOptions;
@@ -32,11 +35,24 @@ public class NewPageController implements Initializable {
     @FXML public TextArea textArea;
     @FXML public ImageView imageView;
     public GraphicsContext canvasTool;
+    private FileChooser fileChooser;
     double startX, startY, endX, endY, previousX, previousY;
     // currentSelectedTool in order: Pen, Eraser, Text, Shapes[Line, Rectangle, Circle], Image, clearTool
     private final boolean[][] currentSelectedTool = {{false}, {false}, {false}, {false, false, false}, {false}};
 
     /* ----------------------Menu Control------------------------ */
+    @FXML
+    private void exportButtonSelected() throws IOException {
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image files (*.jpg), (*.png)", "*.jpg", "*.png"));
+        fileChooser.setTitle("Save");
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            WritableImage writableImage = new WritableImage((int)canvas.getWidth(), (int)canvas.getHeight());
+            canvasHolder.snapshot(null, writableImage);
+            ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
+        }
+    }
+
     public void penSelected() {
         tool.setText("Pen");
         for (boolean[] booleans : currentSelectedTool) {
@@ -161,7 +177,7 @@ public class NewPageController implements Initializable {
                     canvasTool.strokeRect(startX, startY, positionX, positionY);
                 }
             }
-            else if (shapeFill.isSelected()){
+            else if (shapeFill.isSelected()) {
                 canvasTool.setFill(color);
                 if (tool.getText().equals("Circle")) {
                     canvasTool.fillOval(startX, startY, positionX, positionY);
@@ -174,13 +190,10 @@ public class NewPageController implements Initializable {
     }
 
     private void insertImage() {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.jpg");
-        FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
-        fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
-        File file = fileChooser.showOpenDialog(canvasHolder.getScene().getWindow());
-        Image image = new Image(file.toURI().toString());
-        imageView.setImage(image);
+        fileChooser.setTitle("Click an Image File To Open");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image files (*.jpg), (*.png)", "*.jpg", "*.png"));
+        File file = fileChooser.showOpenDialog(null);
+        imageView.setImage(new Image(file.toURI().toString()));
         canvasHolder.getChildren().add(imageView);
     }
 
@@ -224,6 +237,7 @@ public class NewPageController implements Initializable {
         canvasTool = canvas.getGraphicsContext2D();
         textArea = new TextArea();
         imageView = new ImageView();
+        fileChooser = new FileChooser();
         SpinnerValueFactory<Integer> sizeValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
         sizeValue.setValue(1);
         sizeSpinner.setEditable(true);

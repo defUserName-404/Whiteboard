@@ -13,12 +13,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.TextFlow?>
 
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="whiteboardApp.NewPageController">
    <top>
       <HBox alignment="CENTER" style="-fx-background-color: BLACK;" BorderPane.alignment="CENTER">
-         <Button fx:id="backButton" alignment="CENTER" centerShape="false" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-border-radius: 32px; -fx-background-color: WHITE;" visible="false" />
+         <Button fx:id="backButton" alignment="CENTER" centerShape="false" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-border-radius: 32px; -fx-background-color: WHITE;" text="Back" />
          <ToolBar fx:id="toolBar" style="-fx-background-color: BLACK;">
             <MenuButton fx:id="tool" mnemonicParsing="false" text="Select Tool">
                <items>
@@ -47,7 +46,7 @@
                </items>
             </MenuButton>
          </ToolBar>
-         <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-border-radius: 32px; -fx-background-color: WHITE;" visible="false" />
+         <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#exportButtonSelected" style="-fx-border-radius: 32px; -fx-background-color: WHITE;" text="Export" />
       </HBox>
    </top>
    <center>
