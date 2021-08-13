@@ -10,6 +10,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -52,11 +54,10 @@ public class NewPageController implements Initializable {
 
     public void textSelected() {
         tool.setText("Text");
-        for (boolean[] booleans : currentSelectedTool) {
-            Arrays.fill(booleans, false);
-        }
-        currentSelectedTool[2][0] = true;
         shapeOptions.setVisible(false);
+        textArea.setMinHeight(100); textArea.setMinWidth(200); textArea.setMaxHeight(100); textArea.setMaxWidth(200);
+        textArea.setEditable(true);
+        canvasHolder.getChildren().add(textArea);
         insertText();
     }
 
@@ -89,6 +90,8 @@ public class NewPageController implements Initializable {
 
     public void clearAllSelected() {
         canvasTool.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        textArea.clear();
+        canvasHolder.getChildren().remove(textArea);
     }
 
     @FXML
@@ -113,10 +116,9 @@ public class NewPageController implements Initializable {
     }
 
     private void insertText() {
-        canvasTool.setLineWidth(sizeSpinner.getValue());
-        canvasTool.setFill(colorPicker.getValue());
-        textArea.setVisible(true);
-        textArea.setEditable(true);
+        textArea.setFont(Font.font("Comic Sans MS", 13));
+        textArea.setStyle("-fx-text-fill: #8b0000;");
+        textArea.setPromptText("Start Typing Here");
     }
 
     private void drawLine(boolean effect) {
@@ -128,7 +130,6 @@ public class NewPageController implements Initializable {
     }
 
     private void drawCircleOrRectangle(boolean effect) {
-
         double positionX = endX - startX;
         double positionY = endY - startY;
         Color color = colorPicker.getValue();
@@ -192,6 +193,7 @@ public class NewPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         canvasTool = canvas.getGraphicsContext2D();
+        textArea = new TextArea();
         SpinnerValueFactory<Integer> sizeValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
         sizeValue.setValue(1);
         sizeSpinner.setEditable(true);

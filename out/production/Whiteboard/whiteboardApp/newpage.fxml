@@ -54,11 +54,6 @@
    <center>
       <StackPane fx:id="canvasHolder" BorderPane.alignment="CENTER">
          <Canvas fx:id="canvas" height="${canvasHolder.height}" onMouseDragged="#mouseDragListener" onMousePressed="#mousePressListener" onMouseReleased="#mouseReleaseListener" width="${canvasHolder.width}" />
-         <TextArea fx:id="textArea" editable="false" maxHeight="100.0" maxWidth="200.0" minHeight="100.0" minWidth="200.0" promptText="Insert Text Here" style="-fx-background-color: BLACK;" visible="false" wrapText="true">
-            <font>
-               <Font name="Comic Sans MS" size="13.0" />
-            </font>
-         </TextArea>
       </StackPane>
    </center>
    <bottom>
