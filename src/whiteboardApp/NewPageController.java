@@ -6,12 +6,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-
+import javafx.stage.FileChooser;
+import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -21,16 +24,16 @@ public class NewPageController implements Initializable {
     @FXML public ColorPicker colorPicker;
     @FXML public Canvas canvas;
     @FXML public MenuButton tool, shapeOptions;
-    @FXML public MenuItem penTool, eraserTool, textTool, lineTool, circleTool, rectangleTool, clearTool;
+    @FXML public MenuItem penTool, eraserTool, textTool, lineTool, circleTool, rectangleTool, imageTool, clearTool;
     @FXML public ToolBar toolBar;
     @FXML public Spinner<Integer> sizeSpinner;
     @FXML public StackPane canvasHolder;
     @FXML public RadioMenuItem shapeFill, shapeStroke;
     @FXML public TextArea textArea;
-
+    @FXML public ImageView imageView;
     public GraphicsContext canvasTool;
     double startX, startY, endX, endY, previousX, previousY;
-    // currentSelectedTool in order: Pen, Eraser, Text, Shapes[Line, Rectangle, Circle], clearTool
+    // currentSelectedTool in order: Pen, Eraser, Text, Shapes[Line, Rectangle, Circle], Image, clearTool
     private final boolean[][] currentSelectedTool = {{false}, {false}, {false}, {false, false, false}, {false}};
 
     /* ----------------------Menu Control------------------------ */
@@ -54,8 +57,14 @@ public class NewPageController implements Initializable {
 
     public void textSelected() {
         tool.setText("Text");
+        for (boolean[] booleans : currentSelectedTool) {
+            Arrays.fill(booleans, false);
+        }
         shapeOptions.setVisible(false);
-        textArea.setMinHeight(100); textArea.setMinWidth(200); textArea.setMaxHeight(100); textArea.setMaxWidth(200);
+        textArea.setMinHeight(100);
+        textArea.setMinWidth(200);
+        textArea.setMaxHeight(100);
+        textArea.setMaxWidth(200);
         textArea.setEditable(true);
         canvasHolder.getChildren().add(textArea);
         insertText();
@@ -88,10 +97,19 @@ public class NewPageController implements Initializable {
         currentSelectedTool[3][2] = true;
     }
 
+    public void imageSelected() {
+        tool.setText("Insert Image");
+        for (boolean[] booleans : currentSelectedTool) {
+            Arrays.fill(booleans, false);
+        }
+        shapeOptions.setVisible(false);
+        insertImage();
+    }
+
     public void clearAllSelected() {
         canvasTool.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         textArea.clear();
-        canvasHolder.getChildren().remove(textArea);
+        canvasHolder.getChildren().removeAll(textArea, imageView);
     }
 
     @FXML
@@ -155,6 +173,17 @@ public class NewPageController implements Initializable {
         // TODO: Implement effects of drawing circles and rectangles
     }
 
+    private void insertImage() {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.jpg");
+        FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+        fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+        File file = fileChooser.showOpenDialog(canvasHolder.getScene().getWindow());
+        Image image = new Image(file.toURI().toString());
+        imageView.setImage(image);
+        canvasHolder.getChildren().add(imageView);
+    }
+
     /* ----------------------Handling mouse events on canvas------------------------ */
     @FXML
     public void mousePressListener(MouseEvent mousePress) {
@@ -194,6 +223,7 @@ public class NewPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         canvasTool = canvas.getGraphicsContext2D();
         textArea = new TextArea();
+        imageView = new ImageView();
         SpinnerValueFactory<Integer> sizeValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
         sizeValue.setValue(1);
         sizeSpinner.setEditable(true);
