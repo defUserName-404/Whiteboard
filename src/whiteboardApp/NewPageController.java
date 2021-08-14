@@ -47,7 +47,7 @@ public class NewPageController implements Initializable {
         fileChooser.setTitle("Save");
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
-            WritableImage writableImage = new WritableImage((int)canvas.getWidth(), (int)canvas.getHeight());
+            WritableImage writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
             canvasHolder.snapshot(null, writableImage);
             ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
         }
@@ -119,6 +119,9 @@ public class NewPageController implements Initializable {
             Arrays.fill(booleans, false);
         }
         shapeOptions.setVisible(false);
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(100);
+        imageView.setPreserveRatio(true);
         insertImage();
     }
 
@@ -176,8 +179,7 @@ public class NewPageController implements Initializable {
                 } else {
                     canvasTool.strokeRect(startX, startY, positionX, positionY);
                 }
-            }
-            else if (shapeFill.isSelected()) {
+            } else if (shapeFill.isSelected()) {
                 canvasTool.setFill(color);
                 if (tool.getText().equals("Circle")) {
                     canvasTool.fillOval(startX, startY, positionX, positionY);
@@ -193,7 +195,7 @@ public class NewPageController implements Initializable {
         fileChooser.setTitle("Click an Image File To Open");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image files (*.jpg), (*.png)", "*.jpg", "*.png"));
         File file = fileChooser.showOpenDialog(null);
-        imageView.setImage(new Image(file.toURI().toString()));
+        imageView.setImage(new Image(file.toURI().toString(),  200, 100, false, false));
         canvasHolder.getChildren().add(imageView);
     }
 
@@ -223,7 +225,7 @@ public class NewPageController implements Initializable {
     }
 
     @FXML
-    private void mouseReleaseListener(MouseEvent mouseRelease){
+    private void mouseReleaseListener(MouseEvent mouseRelease) {
         if (mouseRelease.getButton() == MouseButton.PRIMARY) {
             if (currentSelectedTool[3][0]) drawLine(false);
             else if (currentSelectedTool[3][1]) drawCircleOrRectangle(false);
