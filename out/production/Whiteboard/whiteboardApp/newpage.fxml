@@ -17,7 +17,7 @@
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="whiteboardApp.NewPageController">
    <top>
       <HBox alignment="CENTER" style="-fx-background-color: BLACK;" BorderPane.alignment="CENTER">
-         <Button alignment="CENTER" centerShape="false" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-border-radius: 32px; -fx-background-color: WHITE;" text="Back" />
+         <Button alignment="CENTER" centerShape="false" contentDisplay="CENTER" mnemonicParsing="false" onAction="#backButtonSelected" style="-fx-border-radius: 32px; -fx-background-color: WHITE;" text="Back" />
          <ToolBar fx:id="toolBar" style="-fx-background-color: BLACK;">
             <MenuButton fx:id="tool" mnemonicParsing="false" text="Select Tool">
                <items>

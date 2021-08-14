@@ -16,7 +16,7 @@
             <Font name="Ubuntu Bold" size="20.0" />
          </font>
       </Label>
-      <ImageView fx:id="newIcon" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#onNewButtonClicked" pickOnBounds="true" preserveRatio="true" smooth="false">
+      <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#onNewButtonClicked" pickOnBounds="true" preserveRatio="true" smooth="false">
          <Image url="@resources/assets/newIcon.png" />
       </ImageView>
       <Label text="New">

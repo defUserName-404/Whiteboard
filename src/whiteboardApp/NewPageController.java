@@ -33,7 +33,7 @@ public class NewPageController implements Initializable {
     @FXML public StackPane canvasHolder;
     @FXML public RadioMenuItem shapeFill, shapeStroke;
     @FXML public TextArea textArea;
-    @FXML public ImageView imageView;
+    @FXML public ImageView imageView, newButton;
     public GraphicsContext canvasTool;
     private FileChooser fileChooser;
     double startX, startY, endX, endY, previousX, previousY;
@@ -192,7 +192,7 @@ public class NewPageController implements Initializable {
     }
 
     private void insertImage() {
-        fileChooser.setTitle("Click an Image File To Open");
+        fileChooser.setTitle("Select a File");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image files (*.jpg), (*.png)", "*.jpg", "*.png"));
         File file = fileChooser.showOpenDialog(null);
         imageView.setImage(new Image(file.toURI().toString(),  200, 100, false, false));
