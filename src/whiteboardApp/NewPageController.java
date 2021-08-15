@@ -33,7 +33,7 @@ public class NewPageController implements Initializable {
     @FXML public StackPane canvasHolder;
     @FXML public RadioMenuItem shapeFill, shapeStroke;
     @FXML public TextArea textArea;
-    @FXML public ImageView imageView, newButton;
+    @FXML public ImageView imageView;
     public GraphicsContext canvasTool;
     private FileChooser fileChooser;
     double startX, startY, endX, endY, previousX, previousY;
