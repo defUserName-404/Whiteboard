@@ -55,27 +55,24 @@ public class NewPageController implements Initializable {
 
     public void penSelected() {
         tool.setText("Pen");
-        for (boolean[] booleans : currentSelectedTool) {
+        for (boolean[] booleans : currentSelectedTool)
             Arrays.fill(booleans, false);
-        }
         currentSelectedTool[0][0] = true;
         shapeOptions.setVisible(false);
     }
 
     public void eraserSelected() {
         tool.setText("Eraser");
-        for (boolean[] booleans : currentSelectedTool) {
+        for (boolean[] booleans : currentSelectedTool)
             Arrays.fill(booleans, false);
-        }
         currentSelectedTool[1][0] = true;
         shapeOptions.setVisible(false);
     }
 
     public void textSelected() {
         tool.setText("Text");
-        for (boolean[] booleans : currentSelectedTool) {
+        for (boolean[] booleans : currentSelectedTool)
             Arrays.fill(booleans, false);
-        }
         shapeOptions.setVisible(false);
         textArea.setMinHeight(100);
         textArea.setMinWidth(200);
@@ -88,9 +85,8 @@ public class NewPageController implements Initializable {
 
     public void lineShapeSelected() {
         tool.setText("Line");
-        for (boolean[] booleans : currentSelectedTool) {
+        for (boolean[] booleans : currentSelectedTool)
             Arrays.fill(booleans, false);
-        }
         currentSelectedTool[3][0] = true;
         shapeOptions.setVisible(false);
     }
@@ -98,26 +94,23 @@ public class NewPageController implements Initializable {
     public void circleShapeSelected() {
         tool.setText("Circle");
         shapeOptions.setVisible(true);
-        for (boolean[] booleans : currentSelectedTool) {
+        for (boolean[] booleans : currentSelectedTool)
             Arrays.fill(booleans, false);
-        }
         currentSelectedTool[3][1] = true;
     }
 
     public void rectangleShapeSelected() {
         tool.setText("Rectangle");
         shapeOptions.setVisible(true);
-        for (boolean[] booleans : currentSelectedTool) {
+        for (boolean[] booleans : currentSelectedTool)
             Arrays.fill(booleans, false);
-        }
         currentSelectedTool[3][2] = true;
     }
 
     public void imageSelected() {
         tool.setText("Insert Image");
-        for (boolean[] booleans : currentSelectedTool) {
+        for (boolean[] booleans : currentSelectedTool)
             Arrays.fill(booleans, false);
-        }
         shapeOptions.setVisible(false);
         imageView.setFitWidth(200);
         imageView.setFitHeight(100);
@@ -174,18 +167,17 @@ public class NewPageController implements Initializable {
         if (!effect) {
             if (shapeStroke.isSelected()) {
                 canvasTool.setStroke(color);
-                if (tool.getText().equals("Circle")) {
+                if (tool.getText().equals("Circle"))
                     canvasTool.strokeOval(startX, startY, positionX, positionY);
-                } else {
+                else
                     canvasTool.strokeRect(startX, startY, positionX, positionY);
-                }
-            } else if (shapeFill.isSelected()) {
+            }
+            else if (shapeFill.isSelected()) {
                 canvasTool.setFill(color);
-                if (tool.getText().equals("Circle")) {
+                if (tool.getText().equals("Circle"))
                     canvasTool.fillOval(startX, startY, positionX, positionY);
-                } else {
+                else
                     canvasTool.fillRect(startX, startY, positionX, positionY);
-                }
             }
         }
         // TODO: Implement effects of drawing circles and rectangles
