@@ -207,7 +207,6 @@ public class NewPageController implements Initializable {
         if (mouseDrag.getButton() == MouseButton.PRIMARY) {
             this.endX = mouseDrag.getX();
             this.endY = mouseDrag.getY();
-
             if (currentSelectedTool[0][0]) usePenOrEraserTool();
             else if (currentSelectedTool[1][0]) usePenOrEraserTool();
             else if (currentSelectedTool[3][0]) drawLine(true);
