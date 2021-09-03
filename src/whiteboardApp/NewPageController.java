@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class NewPageController implements Initializable {
     @FXML public ColorPicker colorPicker;
@@ -36,7 +37,7 @@ public class NewPageController implements Initializable {
     @FXML public ImageView imageView;
     public GraphicsContext canvasTool;
     private FileChooser fileChooser;
-    double startX, startY, endX, endY, previousX, previousY;
+    private double startX, startY, endX, endY, previousX, previousY, startDragX, startDragY;;
     // currentSelectedTool in order: Pen, Eraser, Text, Shapes[Line, Rectangle, Circle], Image, clearTool
     private final boolean[][] currentSelectedTool = {{false}, {false}, {false}, {false, false, false}, {false}};
 
@@ -74,10 +75,10 @@ public class NewPageController implements Initializable {
         for (boolean[] booleans : currentSelectedTool)
             Arrays.fill(booleans, false);
         shapeOptions.setVisible(false);
-        textArea.setMinHeight(100);
-        textArea.setMinWidth(200);
-        textArea.setMaxHeight(100);
         textArea.setMaxWidth(200);
+        textArea.setMaxHeight(100);
+        textArea.setMinWidth(200);
+        textArea.setMinHeight(100);
         textArea.setEditable(true);
         canvasHolder.getChildren().add(textArea);
         insertText();
@@ -146,6 +147,14 @@ public class NewPageController implements Initializable {
     }
 
     private void insertText() {
+        textArea.setOnMousePressed(e -> {
+            startDragX = e.getSceneX();
+            startDragY = e.getSceneY();
+        });
+        textArea.setOnMouseDragged(e -> {
+            textArea.setTranslateX(e.getSceneX() - startDragX);
+            textArea.setTranslateY(e.getSceneY() - startDragY);
+        });
         textArea.setFont(Font.font("Comic Sans MS", 13));
         textArea.setStyle("-fx-text-fill: #8b0000;");
         textArea.setPromptText("Start Typing Here");
