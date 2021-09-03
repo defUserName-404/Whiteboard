@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class NewPageController implements Initializable {
     @FXML public ColorPicker colorPicker;
@@ -56,63 +55,43 @@ public class NewPageController implements Initializable {
 
     public void penSelected() {
         tool.setText("Pen");
-        for (boolean[] booleans : currentSelectedTool)
-            Arrays.fill(booleans, false);
-        currentSelectedTool[0][0] = true;
-        shapeOptions.setVisible(false);
+        setup(0, 0);
     }
 
     public void eraserSelected() {
         tool.setText("Eraser");
-        for (boolean[] booleans : currentSelectedTool)
-            Arrays.fill(booleans, false);
-        currentSelectedTool[1][0] = true;
-        shapeOptions.setVisible(false);
+        setup(1, 0);
     }
 
     public void textSelected() {
         tool.setText("Text");
-        for (boolean[] booleans : currentSelectedTool)
-            Arrays.fill(booleans, false);
-        shapeOptions.setVisible(false);
+        setup(2, 0);
         textArea.setMaxWidth(200);
         textArea.setMaxHeight(100);
         textArea.setMinWidth(200);
         textArea.setMinHeight(100);
-        textArea.setEditable(true);
         canvasHolder.getChildren().add(textArea);
         insertText();
     }
 
     public void lineShapeSelected() {
         tool.setText("Line");
-        for (boolean[] booleans : currentSelectedTool)
-            Arrays.fill(booleans, false);
-        currentSelectedTool[3][0] = true;
-        shapeOptions.setVisible(false);
+        setup(3, 0);
     }
 
     public void circleShapeSelected() {
         tool.setText("Circle");
-        shapeOptions.setVisible(true);
-        for (boolean[] booleans : currentSelectedTool)
-            Arrays.fill(booleans, false);
-        currentSelectedTool[3][1] = true;
+        setup(3, 1);
     }
 
     public void rectangleShapeSelected() {
         tool.setText("Rectangle");
-        shapeOptions.setVisible(true);
-        for (boolean[] booleans : currentSelectedTool)
-            Arrays.fill(booleans, false);
-        currentSelectedTool[3][2] = true;
+        setup(3, 2);
     }
 
     public void imageSelected() {
         tool.setText("Insert Image");
-        for (boolean[] booleans : currentSelectedTool)
-            Arrays.fill(booleans, false);
-        shapeOptions.setVisible(false);
+        setup(4, 0);
         imageView.setFitWidth(200);
         imageView.setFitHeight(100);
         imageView.setPreserveRatio(true);
@@ -147,13 +126,14 @@ public class NewPageController implements Initializable {
     }
 
     private void insertText() {
-        textArea.setOnMousePressed(e -> {
-            startDragX = e.getSceneX();
-            startDragY = e.getSceneY();
+        // TODO: Fix drag and drop bug
+        textArea.setOnMousePressed(event -> {
+            startDragX = event.getSceneX();
+            startDragY = event.getSceneY();
         });
-        textArea.setOnMouseDragged(e -> {
-            textArea.setTranslateX(e.getSceneX() - startDragX);
-            textArea.setTranslateY(e.getSceneY() - startDragY);
+        textArea.setOnMouseDragged(event -> {
+            textArea.setTranslateX(event.getSceneX() - startDragX);
+            textArea.setTranslateY(event.getSceneY() - startDragY);
         });
         textArea.setFont(Font.font("Comic Sans MS", 13));
         textArea.setStyle("-fx-text-fill: #8b0000;");
@@ -231,6 +211,14 @@ public class NewPageController implements Initializable {
             else if (currentSelectedTool[3][1]) drawCircleOrRectangle(false);
             else if (currentSelectedTool[3][2]) drawCircleOrRectangle(false);
         }
+    }
+
+    private void setup(int i, int j) {
+        for (boolean[] booleans : currentSelectedTool)
+            Arrays.fill(booleans, false);
+        currentSelectedTool[i][j] = true;
+        textArea.setEditable(i == 2 && j == 0);
+        shapeOptions.setVisible((i == 3 && j == 1) || (i == 3 && j == 2));
     }
 
     /* ----------------------Initializer------------------------ */
