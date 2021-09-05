@@ -32,7 +32,7 @@ public class NewPageController implements Initializable {
     @FXML public Spinner<Integer> sizeSpinner;
     @FXML public StackPane canvasHolder;
     @FXML public RadioMenuItem shapeFill, shapeStroke;
-    @FXML private TextArea textArea;
+    @FXML private TextArea txtInitializer;
     @FXML private ImageView imageView;
     public GraphicsContext canvasTool;
     private FileChooser fileChooser;
@@ -65,13 +65,15 @@ public class NewPageController implements Initializable {
 
     public void textSelected() {
         tool.setText("Text");
+        TextArea textArea = new TextArea();
         textArea.setMaxWidth(200);
         textArea.setMaxHeight(100);
         textArea.setMinWidth(200);
         textArea.setMinHeight(100);
+        txtInitializer = textArea;
         canvasHolder.getChildren().add(textArea);
         setup(2, 0);
-        insertText();
+        insertText(textArea);
     }
 
     public void lineShapeSelected() {
@@ -100,8 +102,8 @@ public class NewPageController implements Initializable {
 
     public void clearAllSelected() {
         canvasTool.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        textArea.clear();
-        canvasHolder.getChildren().removeAll(textArea, imageView);
+        txtInitializer.clear();
+        canvasHolder.getChildren().removeAll(txtInitializer, imageView);
     }
 
     @FXML
@@ -125,7 +127,7 @@ public class NewPageController implements Initializable {
         previousY = endY;
     }
 
-    private void insertText() {
+    private void insertText(TextArea textArea) {
         textArea.setFont(Font.font("Comic Sans MS", 13));
         textArea.setStyle("-fx-text-fill: #8b0000;");
         textArea.setPromptText("Start Typing Here");
@@ -216,7 +218,7 @@ public class NewPageController implements Initializable {
         for (boolean[] booleans : currentSelectedTool)
             Arrays.fill(booleans, false);
         currentSelectedTool[i][j] = true;
-        textArea.setEditable(i == 2 && j == 0);
+        txtInitializer.setEditable(i == 2 && j == 0);
         shapeOptions.setVisible((i == 3 && j == 1) || (i == 3 && j == 2));
     }
 
@@ -224,7 +226,7 @@ public class NewPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         canvasTool = canvas.getGraphicsContext2D();
-        textArea = new TextArea();
+        txtInitializer = new TextArea();
         imageView = new ImageView();
         fileChooser = new FileChooser();
         SpinnerValueFactory<Integer> sizeValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);

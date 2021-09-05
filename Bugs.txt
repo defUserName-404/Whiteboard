@@ -1,2 +1,5 @@
 1. Text Area isn't resizing
 2. Image files needs to be scaled to fit the screen
+
+Bug fixes:
+1. Image drag and drop is now fully functional
