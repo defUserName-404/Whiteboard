@@ -36,7 +36,7 @@ public class NewPageController implements Initializable {
     @FXML private ImageView imageView;
     public GraphicsContext canvasTool;
     private FileChooser fileChooser;
-    private double startX, startY, endX, endY, previousX, previousY, startDragX, startDragY;;
+    private double startX, startY, endX, endY, previousX, previousY;
     // currentSelectedTool in order: Pen, Eraser, Text, Shapes[Line, Rectangle, Circle], Image, clearTool
     private final boolean[][] currentSelectedTool = {{false}, {false}, {false}, {false, false, false}, {false}};
 
@@ -73,6 +73,9 @@ public class NewPageController implements Initializable {
         txtInitializer = textArea;
         canvasHolder.getChildren().add(textArea);
         setup(2, 0);
+        textArea.setFont(Font.font("Noto Color Emoji", 14));
+        textArea.setStyle("-fx-text-fill: #8b0000;");
+        textArea.setPromptText("Start Typing Here");
         insertText(textArea);
     }
 
@@ -128,17 +131,9 @@ public class NewPageController implements Initializable {
     }
 
     private void insertText(TextArea textArea) {
-        textArea.setFont(Font.font("Comic Sans MS", 13));
-        textArea.setStyle("-fx-text-fill: #8b0000;");
-        textArea.setPromptText("Start Typing Here");
-        textArea.setOnMousePressed(event -> {
-            startDragX = event.getSceneX();
-            startDragY = event.getSceneY();
-        });
-        textArea.setOnMouseDragged(event -> {
-            textArea.setTranslateX(event.getSceneX() - startDragX);
-            textArea.setTranslateY(event.getSceneY() - startDragY);
-        });
+        // TODO: fix the bug
+        textArea.setTranslateX(endX - startX);
+        textArea.setTranslateY(endY - startY);
     }
 
     private void drawLine(boolean effect) {
@@ -199,6 +194,7 @@ public class NewPageController implements Initializable {
             this.endY = mouseDrag.getY();
             if (currentSelectedTool[0][0]) usePenOrEraserTool();
             else if (currentSelectedTool[1][0]) usePenOrEraserTool();
+            else if (currentSelectedTool[2][0]) insertText(txtInitializer);
             else if (currentSelectedTool[3][0]) drawLine(true);
             else if (currentSelectedTool[3][1]) drawCircleOrRectangle(true);
             else if (currentSelectedTool[3][2]) drawCircleOrRectangle(true);
