@@ -32,8 +32,8 @@ public class NewPageController implements Initializable {
     @FXML public Spinner<Integer> sizeSpinner;
     @FXML public StackPane canvasHolder;
     @FXML public RadioMenuItem shapeFill, shapeStroke;
-    @FXML public TextArea textArea;
-    @FXML public ImageView imageView;
+    @FXML private TextArea textArea;
+    @FXML private ImageView imageView;
     public GraphicsContext canvasTool;
     private FileChooser fileChooser;
     private double startX, startY, endX, endY, previousX, previousY, startDragX, startDragY;;
@@ -65,12 +65,12 @@ public class NewPageController implements Initializable {
 
     public void textSelected() {
         tool.setText("Text");
-        setup(2, 0);
         textArea.setMaxWidth(200);
         textArea.setMaxHeight(100);
         textArea.setMinWidth(200);
         textArea.setMinHeight(100);
         canvasHolder.getChildren().add(textArea);
+        setup(2, 0);
         insertText();
     }
 
@@ -91,10 +91,10 @@ public class NewPageController implements Initializable {
 
     public void imageSelected() {
         tool.setText("Insert Image");
-        setup(4, 0);
         imageView.setFitWidth(200);
         imageView.setFitHeight(100);
         imageView.setPreserveRatio(true);
+        setup(4, 0);
         insertImage();
     }
 
@@ -126,7 +126,9 @@ public class NewPageController implements Initializable {
     }
 
     private void insertText() {
-        // TODO: Fix drag and drop bug
+        textArea.setFont(Font.font("Comic Sans MS", 13));
+        textArea.setStyle("-fx-text-fill: #8b0000;");
+        textArea.setPromptText("Start Typing Here");
         textArea.setOnMousePressed(event -> {
             startDragX = event.getSceneX();
             startDragY = event.getSceneY();
@@ -135,9 +137,6 @@ public class NewPageController implements Initializable {
             textArea.setTranslateX(event.getSceneX() - startDragX);
             textArea.setTranslateY(event.getSceneY() - startDragY);
         });
-        textArea.setFont(Font.font("Comic Sans MS", 13));
-        textArea.setStyle("-fx-text-fill: #8b0000;");
-        textArea.setPromptText("Start Typing Here");
     }
 
     private void drawLine(boolean effect) {
