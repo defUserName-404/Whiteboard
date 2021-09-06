@@ -4,9 +4,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -17,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -32,10 +36,11 @@ public class NewPageController implements Initializable {
     @FXML public Spinner<Integer> sizeSpinner;
     @FXML public StackPane canvasHolder;
     @FXML public RadioMenuItem shapeFill, shapeStroke;
-    @FXML private TextArea txtInitializer;
-    @FXML private ImageView imageView;
+    private ImageView imageViewInitializer;
+    private TextArea textInitializer;
     public GraphicsContext canvasTool;
     private FileChooser fileChooser;
+    private MouseControlUtil mouseControlUtil;
     private double startX, startY, endX, endY, previousX, previousY;
     // currentSelectedTool in order: Pen, Eraser, Text, Shapes[Line, Rectangle, Circle], Image, clearTool
     private final boolean[][] currentSelectedTool = {{false}, {false}, {false}, {false, false, false}, {false}};
@@ -70,13 +75,12 @@ public class NewPageController implements Initializable {
         textArea.setMaxHeight(100);
         textArea.setMinWidth(200);
         textArea.setMinHeight(100);
-        txtInitializer = textArea;
-        canvasHolder.getChildren().add(textArea);
         setup(2, 0);
         textArea.setFont(Font.font("Noto Color Emoji", 14));
         textArea.setStyle("-fx-text-fill: #8b0000;");
         textArea.setPromptText("Start Typing Here");
-        insertText(textArea);
+        textInitializer = textArea;
+        canvasHolder.getChildren().add(textArea);
     }
 
     public void lineShapeSelected() {
@@ -96,17 +100,23 @@ public class NewPageController implements Initializable {
 
     public void imageSelected() {
         tool.setText("Insert Image");
+        ImageView imageView = new ImageView();
         imageView.setFitWidth(200);
         imageView.setFitHeight(100);
         imageView.setPreserveRatio(true);
         setup(4, 0);
-        insertImage();
+        fileChooser.setTitle("Select a File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image files (*.jpg), (*.png)", "*.jpg", "*.png"));
+        File file = fileChooser.showOpenDialog(null);
+        imageView.setImage(new Image(file.toURI().toString(),  200, 100, false, false));
+        imageViewInitializer = imageView;
+        canvasHolder.getChildren().add(imageView);
     }
 
     public void clearAllSelected() {
         canvasTool.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        txtInitializer.clear();
-        canvasHolder.getChildren().removeAll(txtInitializer, imageView);
+        textInitializer.clear();
+        canvasHolder.getChildren().removeAll(textInitializer, imageViewInitializer);
     }
 
     @FXML
@@ -130,10 +140,9 @@ public class NewPageController implements Initializable {
         previousY = endY;
     }
 
-    private void insertText(TextArea textArea) {
+    private void insertTextOrImage(Node node) {
         // TODO: fix the bug
-        textArea.setTranslateX(endX - startX);
-        textArea.setTranslateY(endY - startY);
+        mouseControlUtil.makeDraggable(node);
     }
 
     private void drawLine(boolean effect) {
@@ -168,14 +177,6 @@ public class NewPageController implements Initializable {
         // TODO: Implement effects of drawing circles and rectangles
     }
 
-    private void insertImage() {
-        fileChooser.setTitle("Select a File");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image files (*.jpg), (*.png)", "*.jpg", "*.png"));
-        File file = fileChooser.showOpenDialog(null);
-        imageView.setImage(new Image(file.toURI().toString(),  200, 100, false, false));
-        canvasHolder.getChildren().add(imageView);
-    }
-
     /* ----------------------Handling mouse events on canvas------------------------ */
     @FXML
     public void mousePressListener(MouseEvent mousePress) {
@@ -194,7 +195,6 @@ public class NewPageController implements Initializable {
             this.endY = mouseDrag.getY();
             if (currentSelectedTool[0][0]) usePenOrEraserTool();
             else if (currentSelectedTool[1][0]) usePenOrEraserTool();
-            else if (currentSelectedTool[2][0]) insertText(txtInitializer);
             else if (currentSelectedTool[3][0]) drawLine(true);
             else if (currentSelectedTool[3][1]) drawCircleOrRectangle(true);
             else if (currentSelectedTool[3][2]) drawCircleOrRectangle(true);
@@ -214,7 +214,7 @@ public class NewPageController implements Initializable {
         for (boolean[] booleans : currentSelectedTool)
             Arrays.fill(booleans, false);
         currentSelectedTool[i][j] = true;
-        txtInitializer.setEditable(i == 2 && j == 0);
+        textInitializer.setEditable(i == 2 && j == 0);
         shapeOptions.setVisible((i == 3 && j == 1) || (i == 3 && j == 2));
     }
 
@@ -222,8 +222,9 @@ public class NewPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         canvasTool = canvas.getGraphicsContext2D();
-        txtInitializer = new TextArea();
-        imageView = new ImageView();
+        mouseControlUtil = new MouseControlUtil();
+        textInitializer = new TextArea();
+        imageViewInitializer = new ImageView();
         fileChooser = new FileChooser();
         SpinnerValueFactory<Integer> sizeValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
         sizeValue.setValue(1);
@@ -235,5 +236,7 @@ public class NewPageController implements Initializable {
             sizeValue.setValue(size);
             canvasTool.setLineWidth(size);
         });
+        if (tool.getText().equals("Insert Image")) insertTextOrImage(imageViewInitializer);
+        else if (tool.getText().equals("Text")) insertTextOrImage(textInitializer);
     }
 }
