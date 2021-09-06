@@ -10,6 +10,5 @@ public class HomePageController extends Main {
         Parent newpage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("newpage.fxml")));
         getScreenResolution();
         window.setScene(new Scene(newpage, screenWidth, screenHeight));
-        window.show();
     }
 }

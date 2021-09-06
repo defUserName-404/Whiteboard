@@ -20,7 +20,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -81,6 +80,7 @@ public class NewPageController implements Initializable {
         textArea.setPromptText("Start Typing Here");
         textInitializer = textArea;
         canvasHolder.getChildren().add(textArea);
+        insertTextOrImage(textArea);
     }
 
     public void lineShapeSelected() {
@@ -111,6 +111,8 @@ public class NewPageController implements Initializable {
         imageView.setImage(new Image(file.toURI().toString(),  200, 100, false, false));
         imageViewInitializer = imageView;
         canvasHolder.getChildren().add(imageView);
+        insertTextOrImage(imageView);
+
     }
 
     public void clearAllSelected() {
@@ -236,7 +238,5 @@ public class NewPageController implements Initializable {
             sizeValue.setValue(size);
             canvasTool.setLineWidth(size);
         });
-        if (tool.getText().equals("Insert Image")) insertTextOrImage(imageViewInitializer);
-        else if (tool.getText().equals("Text")) insertTextOrImage(textInitializer);
     }
 }
