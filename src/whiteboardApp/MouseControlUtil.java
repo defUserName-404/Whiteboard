@@ -3,9 +3,9 @@ package whiteboardApp;
 import javafx.scene.Node;
 
 public class MouseControlUtil {
-	private double mousePositionX, mousePositionY;
+	private static double mousePositionX, mousePositionY;
 
-	public void makeDraggable(Node node) {
+	public static void makeDraggable(Node node) {
 		node.setOnMousePressed(mouseEvent -> {
 			mousePositionX = mouseEvent.getX();
 			mousePositionY = mouseEvent.getY();

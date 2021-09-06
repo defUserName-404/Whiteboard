@@ -35,11 +35,10 @@ public class NewPageController implements Initializable {
     @FXML public Spinner<Integer> sizeSpinner;
     @FXML public StackPane canvasHolder;
     @FXML public RadioMenuItem shapeFill, shapeStroke;
-    private ImageView imageViewInitializer;
-    private TextArea textInitializer;
     public GraphicsContext canvasTool;
-    private FileChooser fileChooser;
-    private MouseControlUtil mouseControlUtil;
+    private TextArea textInitializer = new TextArea();
+    private ImageView imageViewInitializer = new ImageView();
+    private final FileChooser fileChooser = new FileChooser();
     private double startX, startY, endX, endY, previousX, previousY;
     // currentSelectedTool in order: Pen, Eraser, Text, Shapes[Line, Rectangle, Circle], Image, clearTool
     private final boolean[][] currentSelectedTool = {{false}, {false}, {false}, {false, false, false}, {false}};
@@ -144,7 +143,7 @@ public class NewPageController implements Initializable {
 
     private void insertTextOrImage(Node node) {
         // TODO: fix the bug
-        mouseControlUtil.makeDraggable(node);
+        MouseControlUtil.makeDraggable(node);
     }
 
     private void drawLine(boolean effect) {
@@ -224,10 +223,6 @@ public class NewPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         canvasTool = canvas.getGraphicsContext2D();
-        mouseControlUtil = new MouseControlUtil();
-        textInitializer = new TextArea();
-        imageViewInitializer = new ImageView();
-        fileChooser = new FileChooser();
         SpinnerValueFactory<Integer> sizeValue = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50);
         sizeValue.setValue(1);
         sizeSpinner.setEditable(true);
