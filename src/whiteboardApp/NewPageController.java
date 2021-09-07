@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -40,6 +41,7 @@ public class NewPageController implements Initializable {
     private ImageView imageViewInitializer;
     private FileChooser fileChooser;
     private double startX, startY, endX, endY, previousX, previousY;
+
     // currentSelectedTool in order: Pen, Eraser, Text, Shapes[Line, Rectangle, Circle], Image, clearTool
     private final boolean[][] currentSelectedTool = {{false}, {false}, {false}, {false, false, false}, {false}};
 
@@ -81,7 +83,7 @@ public class NewPageController implements Initializable {
         textArea.setPromptText("Start Typing Here");
         textInitializer = textArea;
         canvasHolder.getChildren().add(textArea);
-        insertTextOrImage(textArea);
+        MouseControlUtil.makeDraggable(textArea);
     }
 
     public void lineShapeSelected() {
@@ -112,7 +114,7 @@ public class NewPageController implements Initializable {
         imageView.setImage(new Image(file.toURI().toString(),  200, 100, false, false));
         imageViewInitializer = imageView;
         canvasHolder.getChildren().add(imageView);
-        insertTextOrImage(imageView);
+        MouseControlUtil.makeDraggable(imageView);
     }
 
     public void clearAllSelected() {
@@ -136,16 +138,10 @@ public class NewPageController implements Initializable {
     /* ----------------------Using Tools------------------------ */
     public void usePenOrEraserTool() {
         canvasTool.setLineWidth(sizeSpinner.getValue());
-        canvasTool.setStroke(tool.getText().equals("Pen") ? colorPicker.getValue() :
-                Color.WHITESMOKE);
+        canvasTool.setStroke(tool.getText().equals("Pen") ? colorPicker.getValue() : Color.WHITESMOKE);
         canvasTool.strokeLine(previousX, previousY, endX, endY);
         previousX = endX;
         previousY = endY;
-    }
-
-    public void insertTextOrImage(Node node) {
-        // TODO: fix the bug
-        MouseControlUtil.makeDraggable(node);
     }
 
     public void drawLine(boolean effect) {
