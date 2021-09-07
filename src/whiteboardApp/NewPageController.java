@@ -41,7 +41,6 @@ public class NewPageController implements Initializable {
     private ImageView imageViewInitializer;
     private FileChooser fileChooser;
     private double startX, startY, endX, endY, previousX, previousY;
-
     // currentSelectedTool in order: Pen, Eraser, Text, Shapes[Line, Rectangle, Circle], Image, clearTool
     private final boolean[][] currentSelectedTool = {{false}, {false}, {false}, {false, false, false}, {false}};
 
