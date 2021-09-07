@@ -1,21 +1,20 @@
 package whiteboardApp;
 
 import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
 
 public class MouseControlUtil {
 	private static double orgSceneX, orgSceneY;
 	private static double orgTranslateX, orgTranslateY;
 
 	public static void makeDraggable(Node node) {
-		node.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+		node.setOnMousePressed(e -> {
 			orgSceneX = e.getSceneX();
 			orgSceneY = e.getSceneY();
 			orgTranslateX = ((Node) e.getSource()).getTranslateX();
 			orgTranslateY = ((Node) e.getSource()).getTranslateY();
 			((Node) (e.getSource())).toFront();
 		});
-		node.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
+		node.setOnMouseDragged(e -> {
 			double offsetX = e.getSceneX() - orgSceneX;
 			double offsetY = e.getSceneY() - orgSceneY;
 			double newTranslateX = orgTranslateX + offsetX;
