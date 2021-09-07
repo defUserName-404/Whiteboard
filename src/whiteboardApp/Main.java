@@ -27,7 +27,7 @@ public class Main extends Application {
         Image icon = new Image("file: resources/assets/whiteboard.png");
         _window.getIcons().add(icon);
         window = _window;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("homepage.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("UI/homepage.fxml")));
         _window.setScene(new Scene(root, screenWidth, screenHeight));
         _window.show();
     }

@@ -1,5 +1,4 @@
-1. Text Area isn't resizing
-2. Image files needs to be scaled to fit the screen
-
-Bug fixes:
-1. Image drag and drop is now fully functional
+1. TextArea and ImageView isn't resizing
+2. Image needs to be scaled properly
+3. The image and textarea goes out of bound of the canvas
+4. The image drag and drop doesn't function properly it's selected as the first tool

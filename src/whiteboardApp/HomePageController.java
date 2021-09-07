@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class HomePageController extends Main {
     public void onNewButtonClicked() throws Exception {
-        Parent newpage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("newpage.fxml")));
+        Parent newpage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("UI/newpage.fxml")));
         getScreenResolution();
         window.setScene(new Scene(newpage, screenWidth, screenHeight));
     }
