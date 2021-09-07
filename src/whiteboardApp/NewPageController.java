@@ -35,12 +35,11 @@ public class NewPageController implements Initializable {
     @FXML public Spinner<Integer> sizeSpinner;
     @FXML public StackPane canvasHolder;
     @FXML public RadioMenuItem shapeFill, shapeStroke;
-    protected GraphicsContext canvasTool;
-    private UsingTools usingTools;
-    protected TextArea textInitializer;
-    protected ImageView imageViewInitializer;
-    protected FileChooser fileChooser;
-    protected double startX, startY, endX, endY, previousX, previousY;
+    private GraphicsContext canvasTool;
+    private TextArea textInitializer;
+    private ImageView imageViewInitializer;
+    private FileChooser fileChooser;
+    private double startX, startY, endX, endY, previousX, previousY;
     // currentSelectedTool in order: Pen, Eraser, Text, Shapes[Line, Rectangle, Circle], Image, clearTool
     private final boolean[][] currentSelectedTool = {{false}, {false}, {false}, {false, false, false}, {false}};
 
@@ -82,7 +81,7 @@ public class NewPageController implements Initializable {
         textArea.setPromptText("Start Typing Here");
         textInitializer = textArea;
         canvasHolder.getChildren().add(textArea);
-        usingTools.insertTextOrImage(textArea);
+        insertTextOrImage(textArea);
     }
 
     public void lineShapeSelected() {
@@ -113,7 +112,7 @@ public class NewPageController implements Initializable {
         imageView.setImage(new Image(file.toURI().toString(),  200, 100, false, false));
         imageViewInitializer = imageView;
         canvasHolder.getChildren().add(imageView);
-        usingTools.insertTextOrImage(imageView);
+        insertTextOrImage(imageView);
     }
 
     public void clearAllSelected() {
@@ -134,6 +133,53 @@ public class NewPageController implements Initializable {
         shapeFill.setSelected(false);
     }
 
+    /* ----------------------Using Tools------------------------ */
+    public void usePenOrEraserTool() {
+        canvasTool.setLineWidth(sizeSpinner.getValue());
+        canvasTool.setStroke(tool.getText().equals("Pen") ? colorPicker.getValue() :
+                Color.WHITESMOKE);
+        canvasTool.strokeLine(previousX, previousY, endX, endY);
+        previousX = endX;
+        previousY = endY;
+    }
+
+    public void insertTextOrImage(Node node) {
+        // TODO: fix the bug
+        MouseControlUtil.makeDraggable(node);
+    }
+
+    public void drawLine(boolean effect) {
+        canvasTool.setLineWidth(sizeSpinner.getValue());
+        canvasTool.setStroke(colorPicker.getValue());
+        if (!effect)
+            canvasTool.strokeLine(startX, startY, endX, endY);
+        // TODO: Implement effects of drawing lines
+    }
+
+    public void drawCircleOrRectangle(boolean effect) {
+        double positionX = endX - startX;
+        double positionY = endY - startY;
+        Color color = colorPicker.getValue();
+        canvasTool.setLineWidth(sizeSpinner.getValue());
+        if (!effect) {
+            if (shapeStroke.isSelected()) {
+                canvasTool.setStroke(color);
+                if (tool.getText().equals("Circle"))
+                    canvasTool.strokeOval(startX, startY, positionX, positionY);
+                else
+                    canvasTool.strokeRect(startX, startY, positionX, positionY);
+            }
+            else if (shapeFill.isSelected()) {
+                canvasTool.setFill(color);
+                if (tool.getText().equals("Circle"))
+                    canvasTool.fillOval(startX, startY, positionX, positionY);
+                else
+                    canvasTool.fillRect(startX, startY, positionX, positionY);
+            }
+        }
+        // TODO: Implement effects of drawing circles and rectangles
+    }
+
     /* ----------------------Handling mouse events on canvas------------------------ */
     @FXML
     public void mousePressListener(MouseEvent mousePress) {
@@ -150,20 +196,20 @@ public class NewPageController implements Initializable {
         if (mouseDrag.getButton() == MouseButton.PRIMARY) {
             this.endX = mouseDrag.getX();
             this.endY = mouseDrag.getY();
-            if (currentSelectedTool[0][0]) usingTools.usePenOrEraserTool();
-            else if (currentSelectedTool[1][0]) usingTools.usePenOrEraserTool();
-            else if (currentSelectedTool[3][0]) usingTools.drawLine(true);
-            else if (currentSelectedTool[3][1]) usingTools.drawCircleOrRectangle(true);
-            else if (currentSelectedTool[3][2]) usingTools.drawCircleOrRectangle(true);
+            if (currentSelectedTool[0][0]) usePenOrEraserTool();
+            else if (currentSelectedTool[1][0]) usePenOrEraserTool();
+            else if (currentSelectedTool[3][0]) drawLine(true);
+            else if (currentSelectedTool[3][1]) drawCircleOrRectangle(true);
+            else if (currentSelectedTool[3][2]) drawCircleOrRectangle(true);
         }
     }
 
     @FXML
     private void mouseReleaseListener(MouseEvent mouseRelease) {
         if (mouseRelease.getButton() == MouseButton.PRIMARY) {
-            if (currentSelectedTool[3][0]) usingTools.drawLine(false);
-            else if (currentSelectedTool[3][1]) usingTools.drawCircleOrRectangle(false);
-            else if (currentSelectedTool[3][2]) usingTools.drawCircleOrRectangle(false);
+            if (currentSelectedTool[3][0]) drawLine(false);
+            else if (currentSelectedTool[3][1]) drawCircleOrRectangle(false);
+            else if (currentSelectedTool[3][2]) drawCircleOrRectangle(false);
         }
     }
 
@@ -179,7 +225,6 @@ public class NewPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         canvasTool = canvas.getGraphicsContext2D();
-        usingTools = new UsingTools();
         fileChooser = new FileChooser();
         textInitializer = new TextArea();
         imageViewInitializer = new ImageView();
