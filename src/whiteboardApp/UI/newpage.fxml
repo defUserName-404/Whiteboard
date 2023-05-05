@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.paint.Color?>
 
-<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="whiteboardApp.NewPageController">
+<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.whiteboardApp.NewPageController">
    <top>
       <HBox alignment="CENTER" style="-fx-background-color: BLACK;" BorderPane.alignment="CENTER">
          <Button alignment="CENTER" centerShape="false" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-border-radius: 32px; -fx-background-color: WHITE;" text="Back" />

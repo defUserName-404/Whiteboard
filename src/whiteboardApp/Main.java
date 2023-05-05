@@ -1,4 +1,4 @@
-package whiteboardApp;
+package main.java.whiteboardApp;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
