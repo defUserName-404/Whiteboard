@@ -19,7 +19,8 @@
 	<top>
 		<HBox alignment="CENTER" style="-fx-background-color: BLACK;" BorderPane.alignment="CENTER">
 			<Button alignment="CENTER" centerShape="false" contentDisplay="CENTER" mnemonicParsing="false"
-					style="-fx-border-radius: 32px; -fx-background-color: WHITE;" text="Back"/>
+					style="-fx-border-radius: 32px; -fx-background-color: WHITE;" text="Back"
+					onAction="#backButtonSelected"/>
 			<ToolBar fx:id="toolBar" style="-fx-background-color: BLACK;">
 				<MenuButton fx:id="tool" mnemonicParsing="false" text="Select Tool">
 					<items>
@@ -49,7 +50,7 @@
 				<MenuButton fx:id="shapeOptions" mnemonicParsing="false" text="Shape Options" visible="false">
 					<items>
 						<RadioMenuItem fx:id="shapeFill" mnemonicParsing="false" onAction="#shapeFillSelected"
-									   text="Fill"/>
+									   text="Fill" selected="true"/>
 						<RadioMenuItem fx:id="shapeStroke" mnemonicParsing="false" onAction="#shapeStrokeSelected"
 									   text="Stroke"/>
 					</items>

@@ -1,6 +1,7 @@
 package org.defusername.controllers;
 
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -15,6 +16,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import org.defusername.App;
 import org.defusername.util.MouseControlUtil;
 
 import java.io.File;
@@ -24,6 +26,7 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
+
 	@FXML
 	public ColorPicker colorPicker;
 	@FXML
@@ -61,6 +64,11 @@ public class MainWindowController implements Initializable {
 			canvasHolder.snapshot(null, writableImage);
 //			ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
 		}
+	}
+
+	@FXML
+	public void backButtonSelected(ActionEvent actionEvent) throws IOException {
+		App.setRoot("homewindow");
 	}
 
 	public void penSelected() {
@@ -237,4 +245,5 @@ public class MainWindowController implements Initializable {
 			canvasTool.setLineWidth(size);
 		});
 	}
+
 }
