@@ -1,15 +1,11 @@
-package main;
+package org.defusername.controllers;
 
 import javafx.beans.value.ChangeListener;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -19,16 +15,15 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import org.defusername.util.MouseControlUtil;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-public class NewPageController implements Initializable {
+public class MainWindowController implements Initializable {
 	@FXML
 	public ColorPicker colorPicker;
 	@FXML
@@ -64,7 +59,7 @@ public class NewPageController implements Initializable {
 		if (file != null) {
 			WritableImage writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
 			canvasHolder.snapshot(null, writableImage);
-			ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
+//			ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
 		}
 	}
 

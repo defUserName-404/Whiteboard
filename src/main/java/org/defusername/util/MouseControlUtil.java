@@ -1,8 +1,9 @@
-package main;
+package org.defusername.util;
 
 import javafx.scene.Node;
 
 public class MouseControlUtil {
+
 	private static double orgSceneX, orgSceneY;
 	private static double orgTranslateX, orgTranslateY;
 
@@ -23,4 +24,5 @@ public class MouseControlUtil {
 			((Node) (e.getSource())).setTranslateY(newTranslateY);
 		});
 	}
+
 }
