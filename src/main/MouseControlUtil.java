@@ -1,4 +1,4 @@
-package main.java.whiteboardApp;
+package main;
 
 import javafx.scene.Node;
 

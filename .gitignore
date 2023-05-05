@@ -3,3 +3,4 @@ out/
 src/META-INF/
 Whiteboard.iml
 .DS_Store
+/target
